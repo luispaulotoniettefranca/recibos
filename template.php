@@ -37,7 +37,7 @@
 require "extenso.php";
 require "db.php";
 /**
- * @var $pdo
+ * @var PDO $pdo
  */
 $stmt = $pdo->prepare("SELECT * FROM recibos");
 $stmt->execute();

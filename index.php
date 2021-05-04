@@ -27,6 +27,9 @@
     <tbody>
     <?php
     require "db.php";
+    /**
+     * @var PDO $pdo
+     */
     $stmt = $pdo->prepare("SELECT * FROM recibos");
     $stmt->execute();
     $recibos = $stmt->fetchAll();
