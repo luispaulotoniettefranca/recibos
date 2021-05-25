@@ -1,4 +1,5 @@
 <?php
+if(!session_id()) header("Location: login.php");
 function extenso($value, $uppercase = 0): string
 {
     if (strpos($value, ",") > 0) {

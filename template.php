@@ -34,6 +34,8 @@
 <input class="btn btn-primary mt-3" id="print" type="button" value="IMPRIMIR" onClick="window.print();"/>
 <br>
 <?php
+session_start();
+if(!$_SESSION["auth"]) header("Location: login.php");
 require "extenso.php";
 require "db.php";
 /**

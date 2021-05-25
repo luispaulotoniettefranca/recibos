@@ -1,4 +1,6 @@
 <?php
+session_start();
+if(!$_SESSION["auth"]) header("Location: login.php");
 require "db.php";
 /**
  * @var PDO $pdo

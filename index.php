@@ -13,8 +13,9 @@
 <table class="table table-bordered">
     <thead>
     <tr>
-        <td colspan="3" class="text-left"><a href="form.php"><h4>CADASTRAR NOVO RECIBO</h4></a></td>
+        <td colspan="2" class="text-left"><a href="form.php"><h4>CADASTRAR NOVO RECIBO</h4></a></td>
         <td colspan="2" class="text-center"><a target="_blank" href="template.php"><h4>IMPRIMIR RECIBOS</h4></a></td>
+        <td colspan="1" class="text-center"><a href="auth.php"><h6>LOGOUT</h6></a></td>
     </tr>
     <tr>
         <th scope="col">Cliente</th>
@@ -26,6 +27,8 @@
     </thead>
     <tbody>
     <?php
+    session_start();
+    if(!$_SESSION["auth"]) header("Location: login.php");
     require "db.php";
     /**
      * @var PDO $pdo

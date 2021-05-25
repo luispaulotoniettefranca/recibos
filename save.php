@@ -1,4 +1,6 @@
 <?php
+session_start();
+if(!$_SESSION["auth"]) header("Location: login.php");
 require "db.php";
 if ($_POST["id"] > 0) {
     $query = "UPDATE recibos SET costumer = ?, amount = ?, job = ?  WHERE id = ?";
