@@ -11,6 +11,14 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body class="text-center row d-flex m-0 p-0 justify-content-center">
+<?php
+if(isset($_GET['error'])) {
+    $error = urldecode($_GET['error']);
+    echo <<<ERROR
+    <div class="col-12 m-5 alert alert-danger"><b>ERROR: {$error}</b></div>
+ERROR;
+}
+?>
 <!-- Login Form -->
 <form action="auth.php" method="post" class="form text-center col-4 m-0 mt-5">
     <h1 class="mt-5">LOGIN</h1>
