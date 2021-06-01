@@ -11,14 +11,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body class="text-center row d-flex m-0 p-0 justify-content-center">
-<?php
-if(isset($_GET['error'])) {
-    $error = urldecode($_GET['error']);
-    echo <<<ERROR
-    <div class="col-12 m-5 alert alert-danger"><b>ERROR: {$error}</b></div>
-ERROR;
-}
-?>
+
 <!-- Login Form -->
 <form action="auth.php" method="post" class="form text-center col-4 m-0 mt-5">
     <h1 class="mt-5">LOGIN</h1>
@@ -26,10 +19,24 @@ ERROR;
         <input type="text" id="login" class="form-control" name="login" placeholder="login">
     </div>
     <div class="form-group">
-      <input type="password" id="password" class="form-control" name="password" placeholder="password">  
+      <input type="password" id="password" class="form-control" name="password" placeholder="password">
     </div>
+    <hr>
+    <?php
+    if(isset($_GET['error'])) {
+        $error = urldecode($_GET['error']);
+        echo <<<ERROR
+    <div class="alert alert-danger"><b>ERROR: {$error}</b></div>
+ERROR;
+    } else {
+        echo <<<WAITING
+    <div class="form-group m-5"></div>
+WAITING;
+    }
+    ?>
+    <hr>
     <div class="form-group">
-       <input type="submit" class="form-control" name="submit"> 
+       <input type="submit" class="form-control" name="submit">
     </div>
 </form>
 </body>

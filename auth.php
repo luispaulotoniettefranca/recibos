@@ -8,16 +8,13 @@ if($_SESSION["auth"]) {
     /**
      * @var PDO $pdo
      */
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE login = ? AND password = ?");
-    $stmt->execute([$_POST["login"], $_POST["password"]]);
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE login = ?");
+    $stmt->execute([$_POST["login"]]);
     $user = $stmt->fetch();
-    if ($user) {
-        session_start();
+    if ($user && password_verify($_POST["password"], $user->password)) {
         $_SESSION["auth"] = true;
         header("Location: index.php");
     } else {
         header("Location: login.php?error='Access Denied'");
     }
 }
-
-?>
