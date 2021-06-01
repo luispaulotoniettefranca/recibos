@@ -31,7 +31,6 @@
     </style>
 </head>
 <body style="max-width: 700px; margin: auto; zoom: 90%">
-<input class="btn btn-primary mt-3" id="print" type="button" value="IMPRIMIR" onClick="window.print();"/>
 <br>
 <?php
 session_start();
@@ -99,5 +98,8 @@ RECIBO;
     $i++;
 }
 ?>
+<script>
+    window.print();
+</script>
 </body>
 </html>
