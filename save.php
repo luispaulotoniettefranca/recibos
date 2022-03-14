@@ -9,9 +9,6 @@ if ($_POST["id"] > 0) {
     $query = "INSERT INTO recibos (costumer, amount, job) VALUES (?, ?, ?)";
     $params = [$_POST["costumer"], $_POST["amount"], $_POST["job"]];
 }
-/**
- * @var PDO $pdo
- */
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 header("Location: index.php");

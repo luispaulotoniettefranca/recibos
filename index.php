@@ -30,9 +30,6 @@
 session_start();
 if(!$_SESSION["auth"]) header("Location: login.php");
 require "db.php";
-/**
- * @var PDO $pdo
- */
 $stmt = $pdo->prepare("SELECT * FROM recibos");
 $stmt->execute();
 $recibos = $stmt->fetchAll();

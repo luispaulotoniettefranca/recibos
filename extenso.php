@@ -1,57 +1,125 @@
 <?php
-if(!session_id()) header("Location: login.php");
-function extenso($value, $uppercase = 0): string
+function extenso($valor, $maiusculo = 0): string
 {
-    if (strpos($value, ",") > 0) {
-        $value = str_replace(".", "", $value);
-        $value = str_replace(",", ".", $value);
+    if (strpos($valor, ",") > 0) {
+        $valor = str_replace(".", "", $valor);
+        $valor = str_replace(",", ".", $valor);
     }
-    $singular = ["centavo", "real", "mil", "milhão", "bilhão", "trilhão", "quatrilhão"];
-    $plural = ["centavos", "reais", "mil", "milhões", "bilhões", "trilhões", "quatrilhões"];
+    $singulares = [
+        "centavo",
+        "real",
+        "mil",
+        "milhão",
+        "bilhão",
+        "trilhão",
+        "quatrilhão"
+    ];
 
-    $c = ["", "cem", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
-    $d = ["", "dez", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
-    $d10 = ["dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
-    $u = ["", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
+    $plurais = [
+        "centavos",
+        "reais",
+        "mil",
+        "milhões",
+        "bilhões",
+        "trilhões",
+        "quatrilhões"
+    ];
 
-    $z = 0;
+    $centenas = [
+        "",
+        "cem",
+        "duzentos",
+        "trezentos",
+        "quatrocentos",
+        "quinhentos",
+        "seiscentos",
+        "setecentos",
+        "oitocentos",
+        "novecentos"
+    ];
 
-    $value = number_format($value, 2, ".", ".");
-    $integer = explode(".", $value);
-    $cont = count($integer);
-    for ($i = 0; $i < $cont; $i++)
-        for ($ii = strlen($integer[$i]); $ii < 3; $ii++)
-            $integer[$i] = "0" . $integer[$i];
+    $dezenas = [
+        "",
+        "dez",
+        "vinte",
+        "trinta",
+        "quarenta",
+        "cinquenta",
+        "sessenta",
+        "setenta",
+        "oitenta",
+        "noventa"
+    ];
 
-    $fim = $cont - ($integer[$cont - 1] > 0 ? 1 : 2);
-    $rt = '';
-    for ($i = 0; $i < $cont; $i++) {
-        $value = $integer[$i];
-        $rc = (($value > 100) && ($value < 200)) ? "cento" : $c[$value[0]];
-        $rd = ($value[1] < 2) ? "" : $d[$value[1]];
-        $ru = ($value > 0) ? (($value[1] == 1) ? $d10[$value[2]] : $u[$value[2]]) : "";
+    $excecoes = [
+        "dez",
+        "onze",
+        "doze",
+        "treze",
+        "quatorze",
+        "quinze",
+        "dezesseis",
+        "dezessete",
+        "dezoito",
+        "dezenove"
+    ];
 
-        $r = $rc . (($rc && ($rd || $ru)) ? " e " : "") . $rd . (($rd &&
-                $ru) ? " e " : "") . $ru;
-        $t = $cont - 1 - $i;
-        $r .= $r ? " " . ($value > 1 ? $plural[$t] : $singular[$t]) : "";
-        if ($value == "000"
-        )
-            $z++;
-        elseif ($z > 0)
-            $z--;
-        if (($t == 1) && ($z > 0) && ($integer[0] > 0))
-            $r .= ( ($z > 1) ? " de " : "") . $plural[$t];
-        if ($r)
-            $rt = $rt . ((($i > 0) && ($i <= $fim) &&
-                    ($integer[0] > 0) && ($z < 1)) ? ( ($i < $fim) ? ", " : " e ") : " ") . $r;
+    $unidades = [
+        "",
+        "um",
+        "dois",
+        "três",
+        "quatro",
+        "cinco",
+        "seis",
+        "sete",
+        "oito",
+        "nove"
+    ];
+
+    $milhares = 0;
+
+    $valor = number_format($valor, 2, ".", ".");
+    $partes = explode(".", $valor);
+    $quantidadePartes = count($partes);
+
+    for ($i = 0; $i < $quantidadePartes; $i++)
+        for ($ii = strlen($partes[$i]); $ii < 3; $ii++)
+            $partes[$i] = "0" . $partes[$i];
+
+    $fim = $quantidadePartes - ($partes[$quantidadePartes - 1] > 0 ? 1 : 2);
+    $retorno = '';
+
+    for ($i = 0; $i < $quantidadePartes; $i++) {
+        $valor = $partes[$i];
+        $retornoCentena = (($valor > 100) && ($valor < 200)) ? "cento" : $centenas[$valor[0]];
+        $retornoDezena = ($valor[1] < 2) ? "" : $dezenas[$valor[1]];
+        $retornoUnidade = ($valor > 0) ? (($valor[1] == 1) ? $excecoes[$valor[2]] : $unidades[$valor[2]]) : "";
+
+        $resultado = $retornoCentena .
+            (($retornoCentena && ($retornoDezena || $retornoUnidade)) ? " e " : "") .
+            $retornoDezena .
+            (($retornoDezena && $retornoUnidade) ? " e " : "") .
+            $retornoUnidade;
+        $etapa = $quantidadePartes - 1 - $i;
+        $resultado .= $resultado ? " " . ($valor > 1 ? $plurais[$etapa] : $singulares[$etapa]) : "";
+
+        if ($valor == "000")
+            $milhares++;
+        elseif ($milhares > 0)
+            $milhares--;
+        if (($etapa == 1) && ($milhares > 0) && ($partes[0] > 0))
+            $resultado .= ( ($milhares > 1) ? " de " : "") . $plurais[$etapa];
+        if ($resultado)
+            $retorno = $retorno . ((($i > 0) && ($i <= $fim) &&
+                    ($partes[0] > 0) && ($milhares < 1)) ? ( ($i < $fim) ? ", " : " e ") : " ") . $resultado;
     }
 
-    if (!$uppercase) {
-        return trim($rt ? $rt : "zero");
-    } elseif ($uppercase == "2") {
-        return trim(strtoupper($rt) ? strtoupper(strtoupper($rt)) : "Zero");
+    if (!$maiusculo) {
+        return trim($retorno ?: "zero");
+    } elseif ($maiusculo == "2") {
+        return trim(strtoupper($retorno) ? strtoupper(strtoupper($retorno)) : "Zero");
     } else {
-        return trim(ucwords($rt) ? ucwords($rt) : "Zero");
+        return trim(ucwords($retorno) ?: "Zero");
     }
 }

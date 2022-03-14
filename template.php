@@ -37,9 +37,6 @@ session_start();
 if(!$_SESSION["auth"]) header("Location: login.php");
 require "extenso.php";
 require "db.php";
-/**
- * @var PDO $pdo
- */
 $stmt = $pdo->prepare("SELECT * FROM recibos");
 $stmt->execute();
 $date = date('d/m/Y');
@@ -47,7 +44,7 @@ $recibos = $stmt->fetchAll();
 $i = 1;
 foreach ($recibos as $recibo) {
     $extenso = extenso($recibo->amount);
-    echo <<<RECIBO
+echo <<<RECIBO
 <div class="container-fluid border border-dark rounded m-3 p-4 pt-1">
     <div class="row mb-2 p-3 border-bottom">
         <div class="col-4 mt-4 ml-5 text-center">
@@ -74,13 +71,13 @@ foreach ($recibos as $recibo) {
         </div>
     </div>
     <div class="row mb-1">
-        <p class="border-bottom">Recebemos de:  {$recibo->costumer} </p>
+        <p class="border-bottom">Recebemos de: {$recibo->costumer} </p>
     </div>
     <div class="row mb-1">
         <p class="border-bottom">A importância de: {$extenso} </p>
     </div>
     <div class="row mb-1">
-        <p class="border-bottom">Referente a:  {$recibo->job} </p>
+        <p class="border-bottom">Referente a: {$recibo->job} </p>
     </div>
     <div class="row mt-2">
         <div class="col-4">

@@ -5,9 +5,7 @@ if($_SESSION["auth"]) {
     header("Location: login.php");
 } else {
     require "db.php";
-    /**
-     * @var PDO $pdo
-     */
+
     $stmt = $pdo->prepare("SELECT * FROM users WHERE login = ?");
     $stmt->execute([$_POST["login"]]);
     $user = $stmt->fetch();

@@ -16,20 +16,22 @@
 <form action="auth.php" method="post" class="form text-center col-4 m-0 mt-5">
     <h1 class="mt-5">LOGIN</h1>
     <div class="form-group">
+        <label for="login"></label>
         <input type="text" id="login" class="form-control" name="login" placeholder="login">
     </div>
     <div class="form-group">
-      <input type="password" id="password" class="form-control" name="password" placeholder="password">
+        <label for="password"></label>
+        <input type="password" id="password" class="form-control" name="password" placeholder="password">
     </div>
     <hr>
     <?php
     if(isset($_GET['error'])) {
         $error = urldecode($_GET['error']);
-        echo <<<ERROR
+echo <<<ERROR
     <div class="alert alert-danger"><b>ERROR: {$error}</b></div>
 ERROR;
     } else {
-        echo <<<WAITING
+echo <<<WAITING
     <div class="form-group m-5"></div>
 WAITING;
     }
